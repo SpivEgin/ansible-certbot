@@ -5,3 +5,4 @@
   command: letsencrypt certonly --standalone -d {{ fqdn }} -m {{ certbot_mail_address }}
   args:
     creates: "{{ certbot_live_home }}/{{ fqdn }}/fullchain.pem"
+  when: certbot_create_certs
