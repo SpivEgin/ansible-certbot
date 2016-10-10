@@ -1,2 +1,5 @@
-certbot_fullchain_pem: "{{ certbot_live_home }}/{{ ansible_fqdn }}/fullchain.pem"
+certbot_crt: "{{ certbot_fqdn_home }}/cert.pem"
+certbot_key: "{{ certbot_fqdn_home }}/privkey.pem"
+certbot_fqdn_home: "{{ certbot_live_home }}/{{ ansible_fqdn }}"
+certbot_fullchain_pem: "{{ certbot_fqdn_home }}/fullchain.pem"
 certbot_live_home: /etc/letsencrypt/live

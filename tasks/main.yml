@@ -15,9 +15,7 @@
 
 - name: certs created
   command: letsencrypt certonly --standalone -d {{ ansible_fqdn }} -m {{ certbot_mail_address }} --agree-tos --noninteractive --text
-  args:
-    creates: "{{ certbot_fullchain_pem }}"
-  when: certbot_create_certs
+  when: (certbot_fullchain_pem_register.stat.exists == false) and certbot_create_certs
 
 - name: renew certs every month
   cron:
