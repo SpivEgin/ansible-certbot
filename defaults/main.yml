@@ -1,0 +1,2 @@
+certbot_create_certs: false
+certbot_renew_certs: false
