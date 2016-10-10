@@ -1,6 +1,11 @@
 - include: Debian.yml
   when: ansible_os_family == 'Debian'
 
+- name: ensure nginx is stopped
+  service:
+    name: nginx
+    state: stopped
+
 - name: certs created
   command: letsencrypt certonly --standalone -d {{ ansible_fqdn }} -m {{ certbot_mail_address }} --agree-tos --noninteractive --text
   args:
