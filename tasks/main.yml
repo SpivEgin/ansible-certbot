@@ -10,5 +10,5 @@
 - name: renew certs every month
   cron:
     job: letsencrypt renew
-    month: '*/1'
+    special_time: monthly
   when: certbot_renew_certs
