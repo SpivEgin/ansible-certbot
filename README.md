@@ -7,6 +7,7 @@ Installs certbot. Certbot is able to create certificates so that websites could 
 ## Role variables
 
     certbot_create_certs: true
+    certbot_renew_certs: true
 
 ## Dependencies
 
