@@ -2,7 +2,7 @@
   when: ansible_os_family == 'Debian'
 
 - name: certs created
-  command: letsencrypt certonly --standalone -d {{ ansible_fqdn }} -m {{ certbot_mail_address }}
+  command: letsencrypt certonly --standalone -d {{ ansible_fqdn }} -m {{ certbot_mail_address }} --agree-tos
   args:
     creates: "{{ certbot_live_home }}/{{ ansible_fqdn }}/fullchain.pem"
   when: certbot_create_certs
