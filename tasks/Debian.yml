@@ -1,0 +1,5 @@
+- name: letsencrypt installed
+  apt:
+    name: letsencrypt
+    state: latest
+    update_cache: true
