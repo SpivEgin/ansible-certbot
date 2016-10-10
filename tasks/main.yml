@@ -1,15 +1,22 @@
 - include: Debian.yml
   when: ansible_os_family == 'Debian'
 
+#http://stackoverflow.com/a/35680071/2777965
+- name: check that fullchain.pem exists
+  stat:
+    path: "{{ certbot_fullchain_pem }}"
+  register: certbot_fullchain_pem_register
+
 - name: ensure nginx is stopped
   service:
     name: nginx
     state: stopped
+  when: certbot_fullchain_pem_register.stat.exists == false
 
 - name: certs created
   command: letsencrypt certonly --standalone -d {{ ansible_fqdn }} -m {{ certbot_mail_address }} --agree-tos --noninteractive --text
   args:
-    creates: "{{ certbot_live_home }}/{{ ansible_fqdn }}/fullchain.pem"
+    creates: "{{ certbot_fullchain_pem }}"
   when: certbot_create_certs
 
 - name: renew certs every month
