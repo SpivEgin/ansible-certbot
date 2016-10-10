@@ -1,0 +1,4 @@
+- name: letsencrypt installed
+  apt:
+    name: letsencrypt
+    state: latest

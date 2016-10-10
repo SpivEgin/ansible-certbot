@@ -44,7 +44,7 @@ script:
     || (echo 'Idempotence test: fail' && exit 1)
 
   # Test whether certbot is installed.
-  #- 'sudo docker exec --tty "$(cat ${container_id})" env TERM=xterm ls /etc/init.d'
+  - 'sudo docker exec --tty "$(cat ${container_id})" env TERM=xterm letsencrypt -h | grep letsencrypt
 
   # Clean up
   - 'sudo docker stop "$(cat ${container_id})"'
