@@ -26,5 +26,5 @@
     hour: "{{ certbot_renew_certs_hour }}"
     month: "{{ certbot_renew_certs_month }}"
     weekday: "{{ certbot_renew_certs_weekday }}"
-    job: systemctl nginx stop && letsencrypt renew
+    job: /bin/systemctl stop nginx && /usr/bin/letsencrypt renew && /bin/systemctl start nginx
   when: certbot_renew_certs
