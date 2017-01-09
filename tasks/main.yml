@@ -22,6 +22,9 @@
 - name: renew certs every month
   cron:
     name: renewCertbotCerts
-    job: letsencrypt renew
-    special_time: monthly
+    minute: "{{ certbot_renew_certs_minute }}"
+    hour: "{{ certbot_renew_certs_hour }}"
+    month: "{{ certbot_renew_certs_month }}"
+    weekday: "{{ certbot_renew_certs_weekday }}"
+    job: /bin/systemctl stop nginx && /usr/bin/letsencrypt renew && /bin/systemctl start nginx
   when: certbot_renew_certs

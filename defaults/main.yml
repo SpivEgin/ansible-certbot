@@ -1,3 +1,7 @@
 certbot_create_certs: false
-certbot_mail_address: mail@example.com
+
 certbot_renew_certs: false
+certbot_renew_certs_minute: 12,45
+certbot_renew_certs_hour: 8
+certbot_renew_certs_month: '*/1'
+certbot_renew_certs_weekday: 1
