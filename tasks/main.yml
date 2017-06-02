@@ -7,12 +7,6 @@
     path: "{{ certbot_fullchain_pem }}"
   register: certbot_fullchain_pem_register
 
-- name: ensure nginx is stopped
-  service:
-    name: nginx
-    state: stopped
-  when: (certbot_fullchain_pem_register.stat.exists == false) and certbot_create_certs
-
 - name: certs created
   command: letsencrypt certonly --standalone -d {{ ansible_fqdn }} -m {{ certbot_mail_address }} --agree-tos --noninteractive --text
   args:
@@ -26,5 +20,5 @@
     hour: "{{ certbot_renew_certs_hour }}"
     month: "{{ certbot_renew_certs_month }}"
     weekday: "{{ certbot_renew_certs_weekday }}"
-    job: /bin/systemctl stop nginx && /usr/bin/letsencrypt renew && /bin/systemctl start nginx
+    job: /usr/bin/letsencrypt renew
   when: certbot_renew_certs
