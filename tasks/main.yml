@@ -7,6 +7,12 @@
     path: "{{ certbot_fullchain_pem }}"
   register: certbot_fullchain_pem_register
 
+- name: Check whether port 80 is available
+  wait_for:
+    port: 80
+    state: stopped
+    timeout: 10
+
 - name: certs created
   command: letsencrypt certonly --standalone -d {{ ansible_fqdn }} -m {{ certbot_mail_address }} --agree-tos --noninteractive --text
   args:
