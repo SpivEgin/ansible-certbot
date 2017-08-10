@@ -1,4 +1,13 @@
-- name: letsencrypt installed
+- name: software-properties-common installed
   apt:
-    name: letsencrypt
+    name: software-properties-common
+    state: latest
+
+- name: certbot ppa added
+  apt_repository:
+    repo: 'ppa:certbot/certbot'
+
+- name: certbot installed
+  apt:
+    name: certbot
     state: latest

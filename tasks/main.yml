@@ -1,23 +1,19 @@
 - include: Debian.yml
   when: ansible_os_family == 'Debian'
 
-#http://stackoverflow.com/a/35680071/2777965
-- name: check that fullchain.pem exists
-  stat:
-    path: "{{ certbot_fullchain_pem }}"
-  register: certbot_fullchain_pem_register
-
-- name: Check whether port 80 is available
+- name: "Check whether port 443 is available to avoid that certbot fails and returns: 'Could not bind TCP port 443 because it is already in use by another process'"
   wait_for:
-    port: 80
+    port: 443
     state: stopped
     timeout: "{{ certbot_waitfor_port_seconds }}"
 
 - name: certs created
-  command: letsencrypt certonly --standalone -d {{ ansible_fqdn }} -m {{ certbot_mail_address }} --agree-tos --noninteractive --text
+  command: certbot certonly --standalone -d {{ item }} -m {{ certbot_mail_address }} --agree-tos --noninteractive --text
   args:
-    creates: "{{ certbot_fullchain_pem }}"
+    creates: "{{ certbot_live_home }}/{{ item }}/fullchain.pem"
   when: certbot_create_certs
+  with_items:
+    - "{{ certbot_list_of_certs_to_create }}"
 
 - name: renew certs every month
   cron:
@@ -26,5 +22,5 @@
     hour: "{{ certbot_renew_certs_hour }}"
     month: "{{ certbot_renew_certs_month }}"
     weekday: "{{ certbot_renew_certs_weekday }}"
-    job: /usr/bin/letsencrypt renew
+    job: "{{ certbot_renew_certs_job }}"
   when: certbot_renew_certs
